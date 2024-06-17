@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { EstudianteService } from './estudiante.service';
 import { CreateEstudianteDto } from './dto/create-estudiante.dto';
 import { UpdateEstudianteDto } from './dto/update-estudiante.dto';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @Controller('estudiante')
 export class EstudianteController {
@@ -13,8 +14,8 @@ export class EstudianteController {
   }
 
   @Get()
-  findAll() {
-    return this.estudianteService.findAll();
+  findAll(@Query() provincia: string) {
+    return this.estudianteService.findAll(provincia);
   }
 
   @Get(':id')

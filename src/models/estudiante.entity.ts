@@ -1,25 +1,33 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { Carrera, Provincia } from "./index"
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Carrera, Provincia } from './index';
 
 @Entity()
-export class Estudiante{
-    @PrimaryGeneratedColumn()
-    id: number;
+export class Estudiante {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    nombre: string;
+  @Column()
+  nombre: string;
 
-    @Column()
-    apellidos: string;
+  @Column()
+  apellidos: string;
 
-    @Column()
-    nota: number;
+  @Column()
+  nota: number;
 
-    @ManyToMany( () => Carrera, carrera => carrera.estudiantes)
-    @JoinTable()
-    carreras_optadas: Carrera[];
+  @ManyToMany(() => Carrera, (carrera) => carrera.estudiantes)
+  @JoinTable()
+  carreras_optadas: Carrera[];
 
-    @ManyToOne( () => Provincia, provincia => provincia.id)
-    @JoinColumn()
-    provincia: Provincia;
+  @ManyToOne(() => Provincia, (provincia) => provincia.id)
+  @JoinColumn()
+  provincia: Provincia;
 }

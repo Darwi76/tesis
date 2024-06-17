@@ -7,26 +7,32 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class EstudianteService {
-
   constructor(
     @InjectRepository(Estudiante)
     private readonly estudianteRepository: Repository<Estudiante>,
-  ){}
+  ) {}
 
   create(createEstudianteDto: CreateEstudianteDto) {
     const estudiante = new Estudiante();
     estudiante.nombre = 'PedroPedroPedroPePePe';
     estudiante.apellidos = 'DPEPDPE';
     estudiante.nota = 0;
-    return this.estudianteRepository.create(estudiante);
+    return this.estudianteRepository.save(estudiante);
   }
 
-  async findAll() {
-    const nombre = 'PedroPedroPedroPePePe';
-    const apellidos = 'DPEPDPE';
-    const nota = 0;
-    const estudiante =  this.estudianteRepository.create({ nombre, apellidos, nota });
-    return await this.estudianteRepository.save(estudiante);
+  async findAll(provincia: string) {
+    const province = await this.estudianteRepository.find({
+      relations: ['provincia'],
+    });
+
+    if (provincia) {
+      province.forEach((province) => {
+        if (province.provincia.nombre !== provincia) {
+          return province;
+        }
+      });
+    }
+    return province;
   }
 
   findOne(id: number) {
