@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEstudianteDto } from './dto/create-estudiante.dto';
 import { UpdateEstudianteDto } from './dto/update-estudiante.dto';
-import { Estudiante } from 'src/models';
+import { Estudiante, Provincia } from 'src/models';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -10,27 +10,34 @@ export class EstudianteService {
   constructor(
     @InjectRepository(Estudiante)
     private readonly estudianteRepository: Repository<Estudiante>,
+    @InjectRepository(Provincia)
+    private readonly provinciaRepository: Repository<Provincia>,
   ) {}
 
-  create(createEstudianteDto: CreateEstudianteDto) {
+  async create(createEstudianteDto: CreateEstudianteDto) {
     const estudiante = new Estudiante();
-    estudiante.nombre = 'PedroPedroPedroPePePe';
-    estudiante.apellidos = 'DPEPDPE';
-    estudiante.nota = 0;
+    estudiante.nombre = createEstudianteDto.nombre
+    estudiante.apellidos = createEstudianteDto.apellidos
+    estudiante.email = createEstudianteDto.email
+    estudiante.telefono = createEstudianteDto.telefono
+    estudiante.exoneradoasignatura = createEstudianteDto.exonedaro
+    estudiante.nota = createEstudianteDto.nota
+    estudiante.periododeingreso = createEstudianteDto.periodo_ingreso
+
+    const provinceId = createEstudianteDto.provinciaId;
+    estudiante.provincia = await this.provinciaRepository.findOneBy({id: provinceId});
+
     return this.estudianteRepository.save(estudiante);
   }
 
   async findAll(provincia: string) {
+    console.log(provincia);
     const province = await this.estudianteRepository.find({
       relations: ['provincia'],
     });
 
     if (provincia) {
-      province.forEach((province) => {
-        if (province.provincia.nombre !== provincia) {
-          return province;
-        }
-      });
+      province.filter(province => province.provincia.nombre == provincia);
     }
     return province;
   }

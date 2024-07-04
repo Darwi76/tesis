@@ -14,11 +14,15 @@ export class ProvinciaService {
   ){}
 
   create(createProvinciaDto: CreateProvinciaDto) {
-    return this.provinciaRepository.create();
+    const provincia = this.provinciaRepository.create({
+      nombre:createProvinciaDto.nombre
+    })
+    console.log(provincia)
+    return this.provinciaRepository.save(provincia);
   }
 
   findAll() {
-    return `This action returns all provincia`;
+    return this.provinciaRepository.find();
   }
 
   findOne(id: number) {

@@ -23,6 +23,18 @@ export class Estudiante {
   @Column()
   nota: number;
 
+  @Column()
+  periododeingreso:Date;
+  
+  @Column()
+  email:string;
+
+  @Column()
+  telefono:number;
+
+  @Column()
+  exoneradoasignatura:boolean;   
+
   @ManyToMany(() => Carrera, (carrera) => carrera.estudiantes)
   @JoinTable()
   carreras_optadas: Carrera[];
@@ -30,4 +42,5 @@ export class Estudiante {
   @ManyToOne(() => Provincia, (provincia) => provincia.id)
   @JoinColumn()
   provincia: Provincia;
+  estudiante: Estudiante[];
 }
