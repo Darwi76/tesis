@@ -12,9 +12,33 @@ export class CarreraController {
     return this.carreraService.create(createCarreraDto);
   }
 
-  @Get()
-  findAll() {
-    return this.carreraService.findAll();
+  @Get('prosecution')
+  findAllProsecution() {
+    return this.carreraService.findAllProsecution();
+  }
+  
+  @Get('convocation')
+  findAllConvocation() {
+    return this.carreraService.findAllConvocation();
+  }
+  
+  @Get('student')
+  findAllStudent() {
+    return this.carreraService.findAllStudent();
+  }
+
+  @Get('exonerated')
+  findAllExonerated() {
+    return this.carreraService.findAllExonerated();
+  }
+  @Get('result')
+  findAllResult() {
+    return this.carreraService.findAllResult();
+  }
+
+  @Get('year')
+  findAllYear() {
+    return this.carreraService.findAllYear();
   }
 
   @Get(':id')
@@ -31,4 +55,6 @@ export class CarreraController {
   remove(@Param('id') id: string) {
     return this.carreraService.remove(+id);
   }
+
+  
 }
